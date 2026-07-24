@@ -88,6 +88,7 @@
   }
   input:focus, select:focus{outline:none; border-color:var(--orange);}
   .hint{font-size:12px; color:var(--gray); margin-top:5px;}
+  .optional{font-weight:400; color:var(--gray); font-size:.85em;}
   .error-msg{font-size:12px; color:var(--err); margin-top:5px; display:none;}
   .field.invalid input, .field.invalid select{border-color:var(--err);}
   .field.invalid .error-msg{display:block;}
@@ -259,6 +260,12 @@
           <div class="error-msg">Selecione o nível acadêmico.</div>
         </div>
       </div>
+
+      <div class="field full">
+        <label>Nome do instrutor orientador <span class="optional">(opcional)</span></label>
+        <input type="text" id="instrutor" placeholder="Ex.: Prof. João Silva — SENAI/MS">
+        <div class="hint">Preencha somente se a escuderia contar com um instrutor orientador. Os demais campos são obrigatórios.</div>
+      </div>
     </div>
 
     <!-- 2. Demanda -->
@@ -325,7 +332,7 @@
 
 <script>
   // ====== CONFIG: cole aqui a URL /exec do App da Web (Apps Script) ======
-  const API_URL = 'https://script.google.com/macros/s/AKfycbyJr-3xrnWKnDLTz2t0iS0-211bAR4OuQL4funJbiC1tA2PG5VjlMyHipDfGDsz5ABUaw/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbwZSZ_oUXqWzpgmKkBxQRom6zgk5dB-dcuBEnX92CDQifAoENg4SUji3nwdkT9qHYPbNw/exec';
   const MAX_ARQUIVO_MB = 5;
   // =======================================================================
 
@@ -520,6 +527,7 @@
         nomeEquipe: document.getElementById('nome-equipe').value,
         demandaId: Number(demandaSelected.value),
         aceite: document.getElementById('aceite').checked,
+        instrutor: document.getElementById('instrutor').value.trim(),
         lider: {
           nome: document.getElementById('lider-nome').value,
           instituicao: document.getElementById('lider-instituicao').value,
@@ -553,6 +561,7 @@
           <div><strong>Líder:</strong> ${payload.lider.nome}</div>
           <div><strong>Demanda:</strong> ${chosen.emoji} ${chosen.nome}</div>
           <div><strong>Integrantes:</strong> ${totalIntegrantes}</div>
+          ${payload.instrutor ? '<div><strong>Instrutor orientador:</strong> ' + payload.instrutor + '</div>' : ''}
           <div><strong>Data da inscrição:</strong> ${new Date().toLocaleDateString('pt-BR')}</div>
         `;
         form.style.display = 'none';
