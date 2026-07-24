@@ -122,15 +122,78 @@
   .hero-ctas{display:flex; gap:14px; margin-top:30px; flex-wrap:wrap;}
   .hero-badge{
     justify-self:end;
-    width:min(460px,100%);
-    aspect-ratio:800/446;
-    border-radius:28px;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.14);
-    box-shadow:0 20px 50px rgba(0,0,0,.35);
-    background:#E9EAEC;
+    position:relative;
+    width:min(500px,100%);
+    aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center;
   }
-  .hero-badge img{width:100%; height:100%; object-fit:cover; display:block;}
+  /* halo radial atras do corredor */
+  .hero-badge::before{
+    content:'';
+    position:absolute; inset:6%;
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 45%,
+      rgba(232,106,42,.28) 0%,
+      rgba(39,75,153,.22) 42%,
+      rgba(39,75,153,0) 70%);
+    filter:blur(6px);
+  }
+  /* aneis de pista */
+  .hero-badge::after{
+    content:'';
+    position:absolute; inset:10%;
+    border-radius:50%;
+    border:1px dashed rgba(255,255,255,.16);
+    animation:heroSpin 46s linear infinite;
+  }
+  @keyframes heroSpin{to{transform:rotate(360deg);}}
+
+  .hero-runner{
+    position:relative; z-index:3;
+    width:82%;
+    filter:drop-shadow(0 18px 34px rgba(0,0,0,.45));
+    animation:heroFloat 5.5s ease-in-out infinite;
+  }
+  @keyframes heroFloat{
+    0%,100%{transform:translateY(0) rotate(-1deg);}
+    50%{transform:translateY(-14px) rotate(1deg);}
+  }
+
+  /* pilulas de contexto orbitando */
+  .hero-chip{
+    position:absolute; z-index:4;
+    display:flex; align-items:center; gap:7px;
+    padding:8px 14px; border-radius:999px;
+    background:rgba(11,20,45,.82);
+    border:1px solid rgba(255,255,255,.16);
+    backdrop-filter:blur(8px);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    color:#EAF0FF; white-space:nowrap;
+    box-shadow:0 10px 26px rgba(0,0,0,.34);
+  }
+  .hero-chip b{color:var(--orange); font-weight:600;}
+  .hero-chip.c1{top:6%;  left:-4%;}
+  .hero-chip.c2{top:40%; right:-8%;}
+  .hero-chip.c3{bottom:8%; left:2%;}
+
+  /* bandeira quadriculada decorativa */
+  .hero-flag{
+    position:absolute; z-index:2; top:2%; right:6%;
+    width:78px; height:52px; opacity:.85;
+    background-image:
+      linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%),
+      linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%);
+    background-size:17px 17px;
+    background-position:0 0, 8.5px 8.5px;
+    transform:rotate(-8deg);
+    mask-image:linear-gradient(120deg,#000 35%,transparent 100%);
+    -webkit-mask-image:linear-gradient(120deg,#000 35%,transparent 100%);
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-runner,.hero-badge::after{animation:none;}
+  }
   .stat-strip{
     position:relative; z-index:2;
     border-top:1px solid rgba(255,255,255,.14);
@@ -319,7 +382,11 @@
         </div>
       </div>
       <div class="hero-badge">
-        <img src="img/hero-senai.png" alt="Ilustração SENAI Sistema FIEMS — estudantes em movimento" loading="eager">
+        <div class="hero-flag" aria-hidden="true"></div>
+        <img class="hero-runner" src="img/runner.png" alt="Ilustração de estudante correndo com uma seta ascendente, símbolo da corrida de inovação" loading="eager">
+        <div class="hero-chip c1" aria-hidden="true"><b>05</b> demandas</div>
+        <div class="hero-chip c2" aria-hidden="true"><b>4–5</b> por escuderia</div>
+        <div class="hero-chip c3" aria-hidden="true"><b>IA</b> aplicada</div>
       </div>
     </div>
   </div>
